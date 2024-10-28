@@ -1,15 +1,62 @@
 from juliacall import Pkg as pkg
 from juliacall import Main as jl
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def read_cs_output_raster(path):
+    HEADERLINES = 6
+    with open(path, 'r') as f:
+        lines = f.readlines()[HEADERLINES:]
+        matrix = []
+        for line in lines:
+            row = [float(x) for x in line.split()]
+            matrix.append(row)
+        return np.array(matrix)
+
+def read_resistance_matrix(path):
+    return np.loadtxt(path)[1:,1:]
+
+def remove_patches(cumulative_current, patches):
+    indices = np.where(~np.isnan(patches))
+    cumulative_current[indices] = 0
+    return cumulative_current
+
+class CircuitscapeRun():
+    def __init__(self, path):
+        self.path = path         
+        self.patches = read_cs_output_raster(os.path.join(path, "patches.txt"))  
+        self.cumulative_current = remove_patches(read_cs_output_raster(os.path.join(path, "output_cum_curmap.asc")), self.patches) 
+        self.resistance = read_cs_output_raster(os.path.join(path, "resistance.txt"))
+            
+        resistance_matrix = read_resistance_matrix(os.path.join(path, "output_resistances.out"))
+        
+        inv = lambda x: 1/x
+        self.conductance_matrix = inv(resistance_matrix)
+        
+    def plot(self):
+        fig, axs = plt.subplots(ncols=2, nrows=2)
+        axs[0,0].imshow(self.patches, origin='lower')
+        axs[0,0].set_title("Patches")
+
+        axs[1,0].imshow(self.resistance, origin='lower')
+        axs[1,0].set_title("Resistance")
+
+
+        axs[0,1].imshow(self.conductance_matrix)
+        axs[0,1].set_title("Pairwise Conductance")
+
+        axs[1,1].imshow(self.cumulative_current, origin='lower')
+        axs[1,1].set_title("Cumulative Current Flow")
+        plt.show()
+
 
 class CircuitscapeBatch():
     def __init__(self, path):
         self.path = path
-        #self.runs = []
+        self.runs = [CircuitscapeRun(os.path.join(path,x)) for x in os.listdir(path)]
         
-class CircuitscapeRun():
-    def _init__(self):
-        pass 
-
 class CircuitscapeInterface():
     def __init__(self):
         pkg.activate(".")

@@ -1,12 +1,12 @@
 # README.md
 
-To install
+First, make sure Julia is installed. 
 
-```
-pip install juliacall
-```
+Then install `juliacell`, `numpy`, and `matplotlib` into a python environment
+however you prefer.
 
-then from in Python
+
+Then to install Julia dependencies from within Python run
 
 ```
 import CircuitscapeInterface
@@ -14,3 +14,5 @@ import CircuitscapeInterface
 cs = CircuitscapeInterface()
 cs.install()
 ```
+
+Note that `cs.install()` only needs to be run the first time to install dependencies

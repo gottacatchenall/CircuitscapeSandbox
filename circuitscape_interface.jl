@@ -5,6 +5,8 @@ using Distributions
 using Dates
 using Circuitscape
 
+const MIN_RESIST = 1.0
+
 @kwdef struct PatchGenerator
     number_of_patches = 5
     dimensions = (64, 64)
@@ -91,7 +93,7 @@ function generate(rg::ResistanceGenerator)
 
     resist_surface = copy(landscape)
     for (i,v) in enumerate(unique(landscape))
-        resist_surface[findall(isequal(v), landscape)] .= resist_values[i]
+        resist_surface[findall(isequal(v), landscape)] .= MIN_RESIST + resist_values[i]
     end
     resist_surface
 end
@@ -119,14 +121,14 @@ function convert_to_circuitscape_inputs(resistance, patches, dir)
     write_dir = Base.Filesystem.mktempdir(dir; prefix="circuitscape_", cleanup=false)
 
     masked_resistance = copy(resistance)
-    masked_resistance[findall(!isnan, patches)] .= 0
+    masked_resistance[findall(!isnan, patches)] .= MIN_RESIST
 
     resistance_path = joinpath(write_dir,"resistance.txt")
     patch_path = joinpath(write_dir,"patches.txt")
     ini_path = joinpath(write_dir, "params.ini")
     out_path = joinpath(write_dir, "output")
 
-    write_cs_input(resistance, resistance_path)
+    write_cs_input(masked_resistance, resistance_path)
     write_cs_input(patches, patch_path)  
 
     default_ini = read(joinpath(@__DIR__, "default.ini"), String)
