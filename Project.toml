@@ -1,0 +1,6 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+Circuitscape = "2b7a1792-8151-5239-925d-e2b8fdfa3201"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+NeutralLandscapes = "71847384-8354-4223-ac08-659a5128069f"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
