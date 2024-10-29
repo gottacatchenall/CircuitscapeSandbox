@@ -4,6 +4,10 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Only has to be run once
+def install():
+    pkg.instantiate() 
+
 
 def read_cs_output_raster(path):
     HEADERLINES = 6
@@ -61,9 +65,6 @@ class CircuitscapeInterface():
     def __init__(self):
         pkg.activate(".")
         self.interface = jl.include("circuitscape_interface.jl")
-    # Only has to be run once
-    def install(self):
-        pkg.instantiate() 
     # Runs circuitscape
     def run(
         self,

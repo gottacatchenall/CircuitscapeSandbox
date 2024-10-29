@@ -1,15 +1,19 @@
 from Circuitscape import *
 
-cs = CircuitscapeInterface() # this will error the first time --- thats okay
-cs.install()  # this only has to be run once, and then the above line will work 
+install()  # this only has to be run once
+
+
+cs = CircuitscapeInterface()
 
 # the first time this is run it will be slow due to julia precompilation, but
 # subsequent runs will be faster
 batch = cs.run(
-    batch_size = 128,
+    batch_size = 32,
+    explore_score=0.5,
     number_of_patches = 5,
-    raster_dimensions = (32, 32),
+    raster_dimensions = (64, 64),
 )
 
 
-batch.runs[0].plot()
+idx = 1
+batch.runs[idx].plot()
