@@ -9,10 +9,10 @@ however you prefer.
 Then to install Julia dependencies from within Python run
 
 ```
-import CircuitscapeInterface
-# this will throw an error the first time, its fine
-cs = CircuitscapeInterface()
-cs.install()
+from Circuitscape import *
+
+cs = CircuitscapeInterface() # this will error the first time --- thats okay
+cs.install()  # this only has to be run once, and then the above line will work 
 ```
 
 Note that `cs.install()` only needs to be run the first time to install dependencies
