@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 # Only has to be run once
 def install():
+    pkg.activate(".")
     pkg.instantiate() 
 
 
