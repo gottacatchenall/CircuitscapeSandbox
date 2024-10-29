@@ -15,5 +15,4 @@ batch = cs.run(
 )
 
 
-idx = 1
-batch.runs[idx].plot()
+batch.runs[0].plot()
