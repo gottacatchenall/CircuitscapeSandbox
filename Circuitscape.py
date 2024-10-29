@@ -37,7 +37,7 @@ class CircuitscapeRun():
             
         resistance_matrix = read_resistance_matrix(os.path.join(path, "output_resistances.out"))
         
-        inv = lambda x: 1/x
+        inv = lambda x: 1/x if x != 0 else 0
         self.conductance_matrix = inv(resistance_matrix)
         
     def plot(self):
