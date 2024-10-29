@@ -2,7 +2,7 @@
 
 First, make sure Julia is installed. 
 
-Then install `juliacell`, `numpy`, and `matplotlib` into a python environment
+Then install `juliacall`, `numpy`, and `matplotlib` into a python environment
 however you prefer.
 
 
